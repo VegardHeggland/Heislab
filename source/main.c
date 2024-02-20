@@ -3,9 +3,19 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include "startUp.h"
 
 
 
+int main(){
+    elevio_init();
+    
+    elevatorStartUp();
+    
+    return 0;
+}
+
+/*
 int main(){
     elevio_init();
     
@@ -49,3 +59,4 @@ int main(){
 
     return 0;
 }
+*/
