@@ -3,9 +3,19 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include "startUp.h"
 
 
 
+int main(){
+    elevio_init();
+    
+    elevatorStartUp();
+  
+    return 0;
+}
+
+/*
 int main(){
     elevio_init();
     
@@ -17,7 +27,15 @@ int main(){
     while(1){
         int floor = elevio_floorSensor();
 
-        if(floor == 0){
+        if(floor ==void updateFloorSignals() {
+    for (int floor = 0; floor < N_FLOORS; floor++) {
+        signalArray[floor].hallUpActivated = elevio_callButton(floor, 0);
+        signalArray[floor].hallDownActivated = elevio_callButton(floor, 1);
+        signalArray[floor].inCabOrder = elevio_callButton(floor, 2);
+             
+    }
+}
+ 0){
             elevio_motorDirection(DIRN_UP);
         }
 
@@ -49,3 +67,4 @@ int main(){
 
     return 0;
 }
+*/
