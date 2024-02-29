@@ -19,3 +19,13 @@ void updateFloorSignals() {
              
     }
 }
+
+typedef struct {
+    ButtonType btnType; 
+    int currentFloor;
+    int designatedFloor;
+} Order; 
+
+Order queueWithOrders[10];
+
+
