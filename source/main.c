@@ -10,8 +10,7 @@
 
 int main(){
     elevio_init();
-    
     elevatorStartUp();
-  
+
     return 0;
 }
