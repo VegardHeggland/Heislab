@@ -1,7 +1,6 @@
 #include "startUp.h"
-#include "driver/elevio.h"
 #include "queueSystem.h"
-#include "stdbool.h"
+
 extern Order queueWithOrders[10];
 
 void elevatorStartUp() {
@@ -12,7 +11,7 @@ void elevatorStartUp() {
     }
 
      for (int i = 0; i < MAX_ORDERS; i++) {
-        queueWithOrders[i].currentFloor = -1;
+        queueWithOrders[i].floor = -1;
         queueWithOrders[i].designatedFloor = -1;
         queueWithOrders[i].activeOrder = false;
     } 

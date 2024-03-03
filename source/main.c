@@ -1,10 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <time.h>
-#include "driver/elevio.h"
 #include "startUp.h"
-#include "utilities.h"
 #include "queueSystem.h"
 
 extern Order queueWithOrders[10];
@@ -15,7 +12,7 @@ int main(){
     printf("queueSystem: \n");
     
     for (int i = 0; i < MAX_ORDERS; i++) {
-        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].currentFloor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
+        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].floor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
     } printf("\n");
 
     for (int i = 0; i < 8; i++) {
@@ -23,13 +20,13 @@ int main(){
     }
 
    for (int i = 0; i < MAX_ORDERS; i++) {
-        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].currentFloor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
+        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].floor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
     } printf("\n");
     
     removeOrder(6);
     
     for (int i = 0; i < MAX_ORDERS; i++) {
-        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].currentFloor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
+        printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].floor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
     } printf("\n");
 
     return 0;

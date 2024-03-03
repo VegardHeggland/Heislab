@@ -1,7 +1,8 @@
 #include "queueSystem.h"
-#include "stdbool.h"
+#include "stdio.h"
+#include "utilities.h"
 
-FloorSignals signalArray[N_FLOORS];
+/* FloorSignals signalArray[N_FLOORS];
 
 void updateFloorSignals() {
     for (int floor = 0; floor < N_FLOORS; floor++) {
@@ -11,30 +12,48 @@ void updateFloorSignals() {
              
     }
 }
+*/
 
 Order queueWithOrders[10];
 
-void addOrder(ButtonType inputBtn, int inputFloor, int inputDesignatedFloor) {
-    for (int i = 0; i < MAX_ORDERS; i++) {
-        if(queueWithOrders[i].activeOrder == false) {
-            queueWithOrders[i].btnType = inputBtn;
-            if (inputBtn != 2) {
-                queueWithOrders[i].currentFloor = inputFloor;
-                queueWithOrders[i].designatedFloor = -1;
-            } else {
-                queueWithOrders[i].designatedFloor = inputDesignatedFloor;
-                queueWithOrders[i].currentFloor = -1;
+void addOrder() {
+
+        for(int inputFloor = 0; inputFloor < N_FLOORS; inputFloor++){
+            for(int inputBtn = 0; inputBtn < N_BUTTONS; inputBtn++){
+                int btnPressed = elevio_callButton(inputFloor, inputBtn);
+            
+                if(btnPressed == 1) {
+                    lightON(inputFloor, inputBtn);
+                        for (int i = 0; i < MAX_ORDERS; i++) {
+                            if(queueWithOrders[i].activeOrder == false) {
+                                queueWithOrders[i].btnType = inputBtn;
+                                
+                                if (inputBtn != 2) {
+                                    queueWithOrders[i].floor = inputFloor;
+                                    queueWithOrders[i].designatedFloor = -1;
+                                } else {
+                                    queueWithOrders[i].designatedFloor = inputFloor;
+                                    queueWithOrders[i].floor = -1;
+                                }
+                                queueWithOrders[i].activeOrder = true;
+                                break;
+                            } else {
+                                if (inputBtn == queueWithOrders[i].btnType && 
+                                   (inputFloor == queueWithOrders[i].floor || inputFloor == queueWithOrders[i].designatedFloor)) {
+                                    break;
+                                }
+                            }            
+                        }
+                }
             }
-            queueWithOrders[i].activeOrder = true;
-            break;
         }
-    }
 }
 
 void removeOrder(int index){ //Kanskje bytte fra index til etasje. Altså fjerne alle ordre med denne sluttetasjen 
+    
     for (int i = index; i < MAX_ORDERS-1; i++){
         queueWithOrders[i].btnType = queueWithOrders[i+1].btnType;
-        queueWithOrders[i].currentFloor = queueWithOrders[i+1].currentFloor;
+        queueWithOrders[i].floor = queueWithOrders[i+1].floor;
         queueWithOrders[i].designatedFloor = queueWithOrders[i+1].designatedFloor;
         queueWithOrders[i].activeOrder = queueWithOrders[i+1].activeOrder;
         
@@ -49,4 +68,65 @@ void removeOrder(int index){ //Kanskje bytte fra index til etasje. Altså fjerne
 } 
 
 
-//Bruke lampen til å sjekke eller signalmatrise for å hindre mye trykking
+void runElevator() { // Passe på håndtering og fjerning av så mange bestillinger som mulig samtidig.
+    int lastDefinedFloor;
+
+    while(1) {
+        int currentFloor = elevio_floorSensor();
+        if (currentFloor != -1) {
+            lastDefinedFloor = currentFloor;
+        }
+        
+        addOrder();
+
+        switch (queueWithOrders[0].btnType) {
+
+        case 0: //Bestilling utenfor heis, opp
+
+            if(queueWithOrders[0].floor > lastDefinedFloor) {
+                elevio_motorDirection(DIRN_UP);
+            } else if (queueWithOrders[0].floor < lastDefinedFloor) {
+                elevio_motorDirection(DIRN_DOWN);
+            } else {
+                elevio_motorDirection(DIRN_STOP);
+                //removeOrder();
+                //door();
+            }
+            break;
+
+        case 1: //Bestilling utenfor heis, ned
+
+             if(queueWithOrders[0].floor > lastDefinedFloor) {
+                elevio_motorDirection(DIRN_UP);
+
+            } else if (queueWithOrders[0].floor < lastDefinedFloor) {
+                elevio_motorDirection(DIRN_DOWN);
+
+            } else {
+                elevio_motorDirection(DIRN_STOP);
+                //removeOrder();
+                //door();
+            }
+            break;
+
+        case 2: //Bestilling fra heisen
+            if(queueWithOrders[0].designatedFloor > lastDefinedFloor) {
+                elevio_motorDirection(DIRN_UP);
+
+            } else if (queueWithOrders[0].designatedFloor < lastDefinedFloor) {
+                elevio_motorDirection(DIRN_DOWN);
+
+            } else {
+                elevio_motorDirection(DIRN_STOP);
+                //removeOrder();
+                //door();
+            }
+
+            break;
+        default:
+            break;
+        }
+
+
+    }
+}
