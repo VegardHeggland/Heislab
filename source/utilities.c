@@ -1,7 +1,7 @@
 #include "utilities.h"
 
 
-void ligthON(int floor, ButtonType button) {
+void ligthOn(int floor, ButtonType button) {
     elevio_buttonLamp(floor, button, 1); 
 }
 
@@ -13,9 +13,14 @@ void door(){
     if(elevio_floorSensor() != -1 ){
         elevio_doorOpenLamp(1);
         sleep(3);
-        while (elevio_obstruction() == 0)
+
+        while (1)
         {
-        elevio_doorOpenLamp(0);
+            if (elevio_obstruction() == 0) {
+                sleep(3);
+                elevio_doorOpenLamp(0);
+                break;
+            }
         }
     }
 }

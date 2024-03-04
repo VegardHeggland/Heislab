@@ -125,7 +125,5 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
         default:
             break;
         }
-
-
     }
 }
