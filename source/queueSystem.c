@@ -1,5 +1,4 @@
 #include "queueSystem.h"
-#include "stdio.h"
 #include "utilities.h"
 
 /* FloorSignals signalArray[N_FLOORS];
@@ -23,7 +22,7 @@ void addOrder() {
                 int btnPressed = elevio_callButton(inputFloor, inputBtn);
             
                 if(btnPressed == 1) {
-                    lightON(inputFloor, inputBtn);
+                    
                         for (int i = 0; i < MAX_ORDERS; i++) {
                             if(queueWithOrders[i].activeOrder == false) {
                                 queueWithOrders[i].btnType = inputBtn;

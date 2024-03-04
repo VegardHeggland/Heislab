@@ -1,7 +1,6 @@
 #pragma once
 #include "driver/elevio.h"
-#include "stdbool.h" 
-
+#include "stdbool.h"
 #define MAX_ORDERS 10
 
 typedef struct {

@@ -10,7 +10,8 @@ int main(){
     elevio_init();
     elevatorStartUp();
     printf("queueSystem: \n");
-    
+    runElevator();
+    /*
     for (int i = 0; i < MAX_ORDERS; i++) {
         printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].floor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
     } printf("\n");
@@ -28,6 +29,6 @@ int main(){
     for (int i = 0; i < MAX_ORDERS; i++) {
         printf("Bestilling: currentFloor: %d, designatedFloor: %d, activeOrder?: %d\n" , queueWithOrders[i].floor, queueWithOrders[i].designatedFloor, queueWithOrders[i].activeOrder);
     } printf("\n");
-
+    */
     return 0;
 }
