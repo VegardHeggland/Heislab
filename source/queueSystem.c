@@ -18,12 +18,13 @@ Order queueWithOrders[10];
 
 void addOrder() {
 
-        for(int inputFloor = 0; inputFloor < N_FLOORS; inputFloor++){
+        for(int inputFloor = 0; inputFloor < N_FLOORS; inputFloor++){        
             for(int inputBtn = 0; inputBtn < N_BUTTONS; inputBtn++){
+                
                 int btnPressed = elevio_callButton(inputFloor, inputBtn);
-            
+                
                 if(btnPressed == 1) {
-                    lightON(inputFloor, inputBtn);
+                    elevio_buttonLamp(inputFloor, inputBtn, 1); 
                         for (int i = 0; i < MAX_ORDERS; i++) {
                             if(queueWithOrders[i].activeOrder == false) {
                                 queueWithOrders[i].btnType = inputBtn;
@@ -79,6 +80,8 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
         
         addOrder();
 
+
+        /*
         switch (queueWithOrders[0].btnType) {
 
         case 0: //Bestilling utenfor heis, opp
@@ -92,7 +95,7 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
                 //removeOrder();
                 //door();
             }
-            break;
+            
 
         case 1: //Bestilling utenfor heis, ned
 
@@ -107,7 +110,7 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
                 //removeOrder();
                 //door();
             }
-            break;
+            
 
         case 2: //Bestilling fra heisen
             if(queueWithOrders[0].designatedFloor > lastDefinedFloor) {
@@ -121,12 +124,16 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
                 //removeOrder();
                 //door();
             }
+        }
+        */
 
-            break;
-        default:
+        if(elevio_stopButton()) {
             break;
         }
 
+    }
 
+    for (int i = 0; i < MAX_ORDERS; i++) {
+        printf("%d, %d, %d, %d", queueWithOrders[i].btnType, queueWithOrders[i].designatedFloor, queueWithOrders[i].floor, queueWithOrders[i].activeOrder);
     }
 }

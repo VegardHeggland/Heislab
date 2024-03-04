@@ -1,10 +1,10 @@
 #include "utilities.h"
 
 
-void ligthON(int floor, ButtonType button) {
-    elevio_buttonLamp(floor, button, 1); 
+void ligthOn(int floor, int btnType) {
+    elevio_buttonLamp(floor, btnType, 1); 
 }
 
-void lightOff(int floor, ButtonType button) {
-    elevio_buttonLamp(floor, button, 0); 
+void lightOff(int floor, int btnType) {
+    elevio_buttonLamp(floor, btnType, 0); 
 }

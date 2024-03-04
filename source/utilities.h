@@ -1,5 +1,5 @@
 #pragma once
 #include "driver/elevio.h"
 
-void ligthON(int floor, ButtonType button);
-void lightOff(int floor, ButtonType button);
+void ligthOn(int floor, int btnType);
+void lightOff(int floor, int btnType);
