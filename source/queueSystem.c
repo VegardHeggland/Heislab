@@ -1,6 +1,4 @@
 #include "queueSystem.h"
-#include "stdio.h"
-#include "utilities.h"
 
 Order queueWithOrders[10];
 

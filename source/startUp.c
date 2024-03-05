@@ -10,7 +10,6 @@ void elevatorStartUp() {
         floor = elevio_floorSensor();
     }
     elevio_motorDirection(DIRN_STOP);
-
      for (int i = 0; i < MAX_ORDERS; i++) {
         queueWithOrders[i].floor = -1;
         queueWithOrders[i].designatedFloor = -1;
