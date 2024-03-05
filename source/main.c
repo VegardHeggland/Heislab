@@ -11,5 +11,7 @@ int main(){
     elevatorStartUp();
     runElevator();
 
+    //Test
+
     return 0;
 }
