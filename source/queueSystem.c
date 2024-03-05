@@ -2,18 +2,6 @@
 #include "stdio.h"
 #include "utilities.h"
 
-/* FloorSignals signalArray[N_FLOORS];
-
-void updateFloorSignals() {
-    for (int floor = 0; floor < N_FLOORS; floor++) {
-        signalArray[floor].hallUpActivated = elevio_callButton(floor, 0);
-        signalArray[floor].hallDownActivated = elevio_callButton(floor, 1);
-        signalArray[floor].inCabOrder = elevio_callButton(floor, 2);
-             
-    }
-}
-*/
-
 Order queueWithOrders[10];
 
 void addOrder() {

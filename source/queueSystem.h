@@ -5,19 +5,11 @@
 #define MAX_ORDERS 10
 
 typedef struct {
-    bool hallUpActivated;
-    bool hallDownActivated;
-    bool inCabOrder;
-} FloorSignals;
-
-typedef struct {
     ButtonType btnType; 
     int floor;
     int designatedFloor;
     bool activeOrder;
 } Order; 
-
-//void updateFloorSignals();
 
 void addOrder();
 
