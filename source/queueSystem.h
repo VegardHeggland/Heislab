@@ -14,6 +14,6 @@ typedef struct {
 
 void addOrder();
 
-void removeOrder(int index); //iterere gjennom liste og fjerne ordre på indeks = teller under iterering? INkludere dytting av listen fremover
+void removeOrder();
 
 void runElevator();
