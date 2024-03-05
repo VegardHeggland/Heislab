@@ -61,7 +61,7 @@ void removeOrder(){
 } 
 
 
-void runElevator() { // Passe på håndtering og fjerning av så mange bestillinger som mulig samtidig.
+void runElevator() {
     int lastDefinedFloor;
 
     while(1) {
@@ -69,9 +69,13 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
         if (currentFloor != -1) {
             lastDefinedFloor = currentFloor;
         }
+        elevio_floorIndicator(lastDefinedFloor);
         
         addOrder();
 
+        if (elevio_stopButton() == 1) {
+            stopActivated();
+        }
 
         if(queueWithOrders[0].activeOrder == true) {
             switch (queueWithOrders[0].btnType) {
@@ -117,15 +121,6 @@ void runElevator() { // Passe på håndtering og fjerning av så mange bestillin
                     door();
                 } break;
             }
-            
         }
-        if(elevio_stopButton()) {
-            break;
-        }
-
-    }
-
-    for (int i = 0; i < MAX_ORDERS; i++) {
-        printf("%d, %d, %d, %d\n", queueWithOrders[i].btnType, queueWithOrders[i].designatedFloor, queueWithOrders[i].floor, queueWithOrders[i].activeOrder);
     }
 }
