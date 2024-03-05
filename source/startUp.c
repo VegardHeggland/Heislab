@@ -1,10 +1,14 @@
 #include "startUp.h"
-#include "driver/elevio.h"
+#include "queueSystem.h"
+
+extern Order queueWithOrders[10];
 
 void elevatorStartUp() {
-    int currentFloor = -1;
-    while(currentFloor == -1) {
+    int floor = -1;
+    while(floor == -1){
         elevio_motorDirection(DIRN_UP);
-        currentFloor = elevio_floorSensor();
-    }    
+        floor = elevio_floorSensor();
+    }
+    elevio_motorDirection(DIRN_STOP);
+    resetOrders();
 }

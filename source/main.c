@@ -1,16 +1,15 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <time.h>
-#include "driver/elevio.h"
 #include "startUp.h"
-#include "utilities.h"
+#include "queueSystem.h"
 
-
+extern Order queueWithOrders[10];
 
 int main(){
     elevio_init();
     elevatorStartUp();
+    runElevator();
 
     return 0;
 }
