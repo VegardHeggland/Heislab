@@ -14,6 +14,6 @@ typedef struct {
 
 void addOrder();
 
-void removeOrder();
+void removeOrder(int currentFloor);
 
 void runElevator();
