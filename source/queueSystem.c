@@ -65,9 +65,6 @@ void removeOrder(int currentFloor){
 }
 
 
-
-
-
 void runElevator() {
     int lastDefinedFloor;
     MotorDirection currentDirection;
@@ -93,6 +90,8 @@ void runElevator() {
                         elevio_motorDirection(DIRN_STOP);
                         removeOrder(currentFloor);
                         door();
+                        elevio_doorOpenLamp(0);
+
                     }
                 }
                 else if (queueWithOrders[i].btnType == 1 && currentDirection == DIRN_DOWN) {
@@ -100,12 +99,15 @@ void runElevator() {
                         elevio_motorDirection(DIRN_STOP);
                         removeOrder(currentFloor);
                         door();
+                        elevio_doorOpenLamp(0);
                     }
                 }
                 else if (queueWithOrders[i].btnType == 2 && queueWithOrders[i].designatedFloor == currentFloor) {
                     elevio_motorDirection(DIRN_STOP);
                     removeOrder(currentFloor);
                     door();
+                    elevio_doorOpenLamp(0);
+
                 }        
             }
         }
@@ -127,6 +129,8 @@ void runElevator() {
                     elevio_motorDirection(DIRN_STOP);
                     removeOrder(lastDefinedFloor);
                     door();
+                    elevio_doorOpenLamp(0);
+
                 } 
                 elevio_motorDirection(currentDirection);
                 break;
@@ -145,6 +149,8 @@ void runElevator() {
                     elevio_motorDirection(DIRN_STOP);
                     removeOrder(lastDefinedFloor);
                     door();
+                    elevio_doorOpenLamp(0);
+
                 } 
                 elevio_motorDirection(currentDirection);
                 break;
@@ -162,6 +168,8 @@ void runElevator() {
                     elevio_motorDirection(DIRN_STOP);
                     removeOrder(lastDefinedFloor);
                     door();
+                    elevio_doorOpenLamp(0);
+
                 } 
                 elevio_motorDirection(currentDirection);
                 break;
