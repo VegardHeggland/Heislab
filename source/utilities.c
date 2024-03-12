@@ -52,10 +52,10 @@ void resetOrders() {
 void stopActivated() {
     resetOrders();
     elevio_stopLamp(1);
-    
+    elevio_motorDirection(DIRN_STOP);
     while(elevio_stopButton() == 1) {
-        elevio_motorDirection(DIRN_STOP);
-        door();    
+        door();
     }
+    
     elevio_stopLamp(0);
 }
