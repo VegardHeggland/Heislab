@@ -49,7 +49,7 @@ void removeOrder(int currentFloor){
                 lightOff(queueWithOrders[i].floor, queueWithOrders[i].btnType);
             }
     
-            for (int j = 0; j < MAX_ORDERS-1; j++){
+            for (int j = index; j < MAX_ORDERS-1; j++){
                 queueWithOrders[j].btnType = queueWithOrders[j+1].btnType;
                 queueWithOrders[j].floor = queueWithOrders[j+1].floor;
                 queueWithOrders[j].designatedFloor = queueWithOrders[j+1].designatedFloor;
@@ -168,5 +168,6 @@ void runElevator() {
 
             }
         }
+        
     }
 }
