@@ -36,33 +36,38 @@ void addOrder() {
         }
 }
 
-void removeOrder(){ 
+void removeOrder(int currentFloor){ 
+    int index; 
+    for (int i = 0; i < MAX_ORDERS; i++) {
+        if (queueWithOrders[i].floor == currentFloor || queueWithOrders[i].designatedFloor == currentFloor) {
+            index = i;
+            queueWithOrders[i].activeOrder = false;
+            
+            if(queueWithOrders[i].btnType == 2) {
+                lightOff(queueWithOrders[i].designatedFloor, queueWithOrders[i].btnType);
+            } else {
+                lightOff(queueWithOrders[i].floor, queueWithOrders[i].btnType);
+            }
     
-    queueWithOrders[0].activeOrder = false;
-    
-    if(queueWithOrders[0].btnType == 2) {
-        lightOff(queueWithOrders[0].designatedFloor, queueWithOrders[0].btnType);
-    } else {
-        lightOff(queueWithOrders[0].floor, queueWithOrders[0].btnType);
-    }
-    
-    for (int i = 0; i < MAX_ORDERS-1; i++){
-        
-        queueWithOrders[i].btnType = queueWithOrders[i+1].btnType;
-        queueWithOrders[i].floor = queueWithOrders[i+1].floor;
-        queueWithOrders[i].designatedFloor = queueWithOrders[i+1].designatedFloor;
-        queueWithOrders[i].activeOrder = queueWithOrders[i+1].activeOrder;
-        
-        if(queueWithOrders[i].activeOrder == false) {
-            break;
-        
+            for (int j = index; j < MAX_ORDERS-1; j++){
+                queueWithOrders[j].btnType = queueWithOrders[j+1].btnType;
+                queueWithOrders[j].floor = queueWithOrders[j+1].floor;
+                queueWithOrders[j].designatedFloor = queueWithOrders[j+1].designatedFloor;
+                queueWithOrders[j].activeOrder = queueWithOrders[j+1].activeOrder;
+                
+                if(queueWithOrders[j].activeOrder == false) {
+                    break;
+            
+                }
+            }
         }
-    }
-} 
+    } 
+}
 
 
 void runElevator() {
     int lastDefinedFloor;
+    MotorDirection currentDirection;
 
     while(1) {
         int currentFloor = elevio_floorSensor();
@@ -71,11 +76,42 @@ void runElevator() {
         }
         elevio_floorIndicator(lastDefinedFloor);
         
+        
         addOrder();
-
         if (elevio_stopButton() == 1) {
             stopActivated();
         }
+
+        for (int i = 0; i < MAX_ORDERS; i++) {
+            if (queueWithOrders[i].activeOrder == true) {
+                
+                if (queueWithOrders[i].btnType == 0 && currentDirection == DIRN_UP) {
+                    if(currentFloor == queueWithOrders[i].floor){
+                        elevio_motorDirection(DIRN_STOP);
+                        removeOrder(currentFloor);
+                        door();
+                        elevio_doorOpenLamp(0);
+
+                    }
+                }
+                else if (queueWithOrders[i].btnType == 1 && currentDirection == DIRN_DOWN) {
+                    if(currentFloor == queueWithOrders[i].floor){
+                        elevio_motorDirection(DIRN_STOP);
+                        removeOrder(currentFloor);
+                        door();
+                        elevio_doorOpenLamp(0);
+                    }
+                }
+                else if (queueWithOrders[i].btnType == 2 && queueWithOrders[i].designatedFloor == currentFloor) {
+                    elevio_motorDirection(DIRN_STOP);
+                    removeOrder(currentFloor);
+                    door();
+                    elevio_doorOpenLamp(0);
+
+                }        
+            }
+        }
+
 
         if(queueWithOrders[0].activeOrder == true) {
             switch (queueWithOrders[0].btnType) {
@@ -83,44 +119,63 @@ void runElevator() {
             case 0: //Bestilling utenfor heis, opp
 
                 if(queueWithOrders[0].floor > lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_UP);
+                    currentDirection = DIRN_UP;
+                    
                 } else if (queueWithOrders[0].floor < lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_DOWN);
+                    currentDirection = DIRN_DOWN;
+                    
                 } else {
+                    currentDirection = DIRN_STOP;
                     elevio_motorDirection(DIRN_STOP);
-                    removeOrder();
+                    removeOrder(lastDefinedFloor);
                     door();
-                } break;
+                    elevio_doorOpenLamp(0);
+
+                } 
+                elevio_motorDirection(currentDirection);
+                break;
                 
 
             case 1: //Bestilling utenfor heis, ned
 
                 if(queueWithOrders[0].floor > lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_UP);
+                    currentDirection = DIRN_UP;
 
                 } else if (queueWithOrders[0].floor < lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_DOWN);
+                    currentDirection = DIRN_DOWN;
 
                 } else {
+                    currentDirection = DIRN_STOP;
                     elevio_motorDirection(DIRN_STOP);
-                    removeOrder();
+                    removeOrder(lastDefinedFloor);
                     door();
-                } break;
+                    elevio_doorOpenLamp(0);
+
+                } 
+                elevio_motorDirection(currentDirection);
+                break;
                 
 
             case 2: //Bestilling fra heisen
                 if(queueWithOrders[0].designatedFloor > lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_UP);
+                    currentDirection = DIRN_UP;
 
                 } else if (queueWithOrders[0].designatedFloor < lastDefinedFloor) {
-                    elevio_motorDirection(DIRN_DOWN);
+                    currentDirection = DIRN_DOWN;
 
                 } else {
+                    currentDirection = DIRN_STOP;
                     elevio_motorDirection(DIRN_STOP);
-                    removeOrder();
+                    removeOrder(lastDefinedFloor);
                     door();
-                } break;
+                    elevio_doorOpenLamp(0);
+
+                } 
+                elevio_motorDirection(currentDirection);
+                break;
+
             }
         }
+        
     }
 }

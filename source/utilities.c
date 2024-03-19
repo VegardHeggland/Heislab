@@ -24,14 +24,13 @@ void threeSecPause() {
 void door(){
     if(elevio_floorSensor() != -1 ){
         elevio_doorOpenLamp(1);
-        elevio_stopLamp(0);
         threeSecPause();
-        
 
-        while(elevio_obstruction() == 1) {
+        while(elevio_obstruction()) {
             threeSecPause();
+            addOrder();
         }
-        elevio_doorOpenLamp(0);  
+        
     }
 }
 
@@ -52,10 +51,10 @@ void resetOrders() {
 void stopActivated() {
     resetOrders();
     elevio_stopLamp(1);
-    
-    while(elevio_stopButton() == 1) {
-        elevio_motorDirection(DIRN_STOP);
-        door();    
+    elevio_motorDirection(DIRN_STOP);
+    while(elevio_stopButton()) {
+        door();
     }
     elevio_stopLamp(0);
+    elevio_doorOpenLamp(0);  
 }
